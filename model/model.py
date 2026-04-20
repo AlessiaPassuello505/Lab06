@@ -16,3 +16,6 @@ class Model:
 
     def top_Vendite(self,anno,brand,retail):
         return DAO.top_Vendite(anno,brand,retail)
+
+    def analizza_Vendite(self,anno,brand,retail):
+        return DAO.analizza_Vendite(anno,brand,retail)

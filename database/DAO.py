@@ -63,7 +63,7 @@ class DAO():
 
         query = """select gds.*
                     from go_daily_sales gds, go_products gp
-                    WHERE YEAR(gds.Date) = %s AND gp.Product_brand = %s AND gds.Retailer_code = %s
+                    WHERE  gds.Product_Number= gp.Product_number and YEAR(gds.Date) = %s AND gp.Product_brand = %s AND gds.Retailer_code = %s
                     order by gds.Quantity * Unit_sale_price desc"""
 
         cursor.execute(query,(anno,brand,retail))
@@ -82,6 +82,32 @@ class DAO():
         cursor.close()
         cnx.close()
         return res
+
+    @staticmethod
+    def analizza_Vendite(anno,brand,retail):
+        cnx = DBConnect.get_connection()
+        cursor = cnx.cursor(dictionary=True)
+
+        query = """ SELECT 
+            SUM(gds.Quantity * gds.Unit_sale_price) AS giro_affari,
+            COUNT(*) AS n_vendite,
+            COUNT(DISTINCT gds.Retailer_code) AS n_retailers,
+            COUNT(DISTINCT gds.Product_number) AS n_prodotti
+        FROM go_daily_sales gds, go_products gp
+        WHERE gds.Product_Number = gp.Product_number 
+          AND YEAR(gds.Date) = %s 
+          AND gp.Product_brand = %s 
+          AND gds.Retailer_code = %s
+    """
+        cursor.execute(query, (anno, brand, retail))
+
+        row = cursor.fetchone()
+
+        print(row)
+        cursor.close()
+        cnx.close()
+        return row
+
 
 
 

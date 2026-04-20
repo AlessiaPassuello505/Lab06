@@ -48,13 +48,27 @@ class Controller:
         top_vendite=vendite[:5]
         self._view.txt_result.controls.clear()
         for v in top_vendite:
-            riga=f"Data: {v[3]}; ricavo: {v[4]*v[6]}, retailer:{retail}; prodotto:{v[0]}"
+            riga=f"Data: {v[3]}; ricavo: {v[4]*v[6]}, retailer:{retail}; prodotto:{v[1]}"
             self._view.txt_result.controls.append(ft.Text(riga))
         self._view.update_page()
 
 
-
-
-
     def handle_analizzavendite(self,e):
-        pass
+        anno = self._view._dd_anno.value
+        brand = self._view._dd_brand.value
+        retail = self._view._dd_retailer.value
+        vendite=self._model.analizza_Vendite(anno,brand,retail)
+        self._view.txt_result.controls.clear()
+
+        self._view.txt_result.controls.append(ft.Text("Statistiche vendite:"))
+
+        self._view.txt_result.controls.clear()
+        self._view.txt_result.controls.append(ft.Text(f"Giro d'affari: {vendite['giro_affari']}"))
+        self._view.txt_result.controls.append(ft.Text(f"Numero vendite: {vendite['n_vendite']}"))
+        self._view.txt_result.controls.append(ft.Text(f"Retailer coinvolti: {vendite['n_retailers']}"))
+        self._view.txt_result.controls.append(ft.Text(f"Prodotti coinvolti: {vendite['n_prodotti']}"))
+
+        self._view.update_page()
+
+
+
