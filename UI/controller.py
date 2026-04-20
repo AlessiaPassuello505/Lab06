@@ -38,9 +38,23 @@ class Controller:
         self._retailer = e.control.data
 
 
-
     def handle_topVendite(self, e):
-       pass
+        anno=self._view._dd_anno.value
+        brand=self._view._dd_brand.value
+        retail=self._view._dd_retailer.value
+
+
+        vendite=self._model.top_Vendite(anno,brand,retail)
+        top_vendite=vendite[:5]
+        self._view.txt_result.controls.clear()
+        for v in top_vendite:
+            riga=f"Data: {v[3]}; ricavo: {v[4]*v[6]}, retailer:{retail}; prodotto:{v[0]}"
+            self._view.txt_result.controls.append(ft.Text(riga))
+        self._view.update_page()
+
+
+
+
 
     def handle_analizzavendite(self,e):
         pass

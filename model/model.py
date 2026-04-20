@@ -13,3 +13,6 @@ class Model:
 
     def get_Retail(self):
         return DAO.get_Retail()
+
+    def top_Vendite(self,anno,brand,retail):
+        return DAO.top_Vendite(anno,brand,retail)
